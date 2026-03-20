@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pagamento Seguro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --verde: #00C896;
+          --verde-dark: #00A87E;
+          --verde-light: #E6FAF5;
+          --cinza: #F7F7F5;
+          --borda: #E8E8E4;
+          --texto: #1A1A1A;
+          --texto2: #6B6B6B;
+          --texto3: #A0A09A;
+          --branco: #FFFFFF;
+          --erro: #FF4D4D;
+        }
+
+        body {
+          font-family: 'DM Sans', sans-serif;
+          background: var(--cinza);
+          color: var(--texto);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        header {
+          padding: 20px 24px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border-bottom: 1px solid var(--borda);
+          background: var(--branco);
+        }
+
+        .logo-dot { width: 10px; height: 10px; background: var(--verde); border-radius: 50%; }
+
+        header span {
+          font-family: 'Syne', sans-serif;
+          font-weight: 700; font-size: 15px; letter-spacing: -0.3px;
+        }
+
+        .badge-seguro {
+          margin-left: auto; font-size: 11px; color: var(--texto2);
+          display: flex; align-items: center; gap: 5px;
+        }
+
+        .badge-seguro::before {
+          content: ''; display: inline-block;
+          width: 8px; height: 8px; background: var(--verde); border-radius: 50%;
+        }
+
+        main {
+          flex: 1; display: flex; align-items: flex-start;
+          justify-content: center; padding: 32px 16px 48px;
+        }
+
+        .card {
+          background: var(--branco); border: 1px solid var(--borda);
+          border-radius: 20px; width: 100%; max-width: 480px; overflow: hidden;
+        }
+
+        .spinner {
+          width: 28px; height: 28px; border: 2px solid var(--borda);
+          border-top-color: var(--verde); border-radius: 50%;
+          animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading { padding: 48px 24px; text-align: center; color: var(--texto2); font-size: 14px; }
+
+        /* PRODUTO */
+        .produto-img {
+          width: 100%; height: 240px; overflow: hidden;
+          background: var(--cinza); position: relative;
+        }
+
+        .produto-img img {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .produto-img img:hover { transform: scale(1.03); }
+
+        .produto-img-placeholder {
+          width: 100%; height: 240px; background: var(--cinza);
+          display: flex; align-items: center; justify-content: center;
+        }
+
+        .produto-body { padding: 24px; }
+
+        .origem-badge {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 11px; color: var(--texto2);
+          background: var(--cinza); border: 1px solid var(--borda);
+          padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+        }
+
+        .produto-titulo {
+          font-family: 'Syne', sans-serif;
+          font-size: 20px; font-weight: 700;
+          line-height: 1.3; margin-bottom: 8px; color: var(--texto);
+        }
+
+        .produto-descricao {
+          font-size: 13px; color: var(--texto2);
+          line-height: 1.6; margin-bottom: 16px;
+          display: -webkit-box; -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        .produto-link {
+          font-size: 12px; color: var(--texto3);
+          text-decoration: none; word-break: break-all;
+          display: block; margin-bottom: 20px;
+        }
+
+        .produto-link:hover { color: var(--verde); }
+
+        .pagar-banner {
+          background: var(--verde-light); border: 1px solid #B3EFE0;
+          border-radius: 14px; padding: 16px 20px;
+          display: flex; align-items: center; justify-content: space-between; gap: 12px;
+          opacity: 0; transform: translateY(10px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .pagar-banner.visivel { opacity: 1; transform: translateY(0); }
+
+        .pagar-valor {
+          font-family: 'Syne', sans-serif;
+          font-size: 22px; font-weight: 700; color: var(--texto);
+        }
+
+        .pagar-valor span {
+          display: block; font-family: 'DM Sans', sans-serif;
+          font-size: 11px; font-weight: 400; color: var(--texto2);
+        }
+
+        .btn-pagar {
+          background: var(--verde); color: white; border: none; cursor: pointer;
+          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
+          padding: 12px 22px; border-radius: 12px; white-space: nowrap;
+          transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-pagar:hover { background: var(--verde-dark); }
+        .btn-pagar:active { transform: scale(0.97); }
+
+        /* FORMULÁRIO */
+        .form-header { padding: 28px 24px 0; }
+        .step-label { font-size: 11px; color: var(--texto3); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 6px; }
+        .form-titulo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--texto); margin-bottom: 4px; }
+        .form-sub { font-size: 13px; color: var(--texto2); margin-bottom: 24px; }
+        .form-body { padding: 0 24px 24px; }
+
+        .campo { margin-bottom: 16px; }
+        .campo label { display: block; font-size: 12px; font-weight: 500; color: var(--texto2); margin-bottom: 6px; }
+        .campo input {
+          width: 100%; height: 46px; border: 1px solid var(--borda);
+          border-radius: 10px; padding: 0 14px;
+          font-family: 'DM Sans', sans-serif; font-size: 14px;
+          color: var(--texto); background: var(--branco);
+          transition: border-color 0.2s; outline: none;
+        }
+        .campo input:focus { border-color: var(--verde); }
+        .msg-erro { font-size: 11px; color: var(--erro); margin-top: 4px; display: none; }
+        .campo.tem-erro .msg-erro { display: block; }
+        .campo.tem-erro input { border-color: var(--erro); }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .btn-continuar {
+          width: 100%; height: 50px; background: var(--verde);
+          color: white; border: none; cursor: pointer;
+          font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+          border-radius: 12px; margin-top: 8px;
+          transition: background 0.2s, transform 0.1s;
+        }
+        .btn-continuar:hover { background: var(--verde-dark); }
+        .btn-continuar:active { transform: scale(0.98); }
+
+        /* PAGAMENTO */
+        .pag-header {
+          padding: 28px 24px 20px; text-align: center;
+          border-bottom: 1px solid var(--borda);
+        }
+        .pag-titulo { font-size: 13px; color: var(--texto2); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
+        .pag-valor { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 700; color: var(--texto); }
+        .pag-body { padding: 24px; }
+
+        .qr-wrapper {
+          background: var(--branco); border: 1px solid var(--borda);
+          border-radius: 16px; padding: 20px;
+          display: flex; flex-direction: column; align-items: center; gap: 16px;
+          margin-bottom: 20px;
+        }
+
+        .qr-label { font-size: 12px; color: var(--texto2); text-align: center; }
+
+        .chave-pix-box {
+          background: var(--cinza); border: 1px solid var(--borda);
+          border-radius: 10px; padding: 12px 16px;
+          display: flex; justify-content: space-between; align-items: center; gap: 12px;
+          margin-bottom: 20px;
+        }
+
+        .chave-pix-box div { flex: 1; overflow: hidden; }
+        .chave-pix-box label { font-size: 11px; color: var(--texto3); }
+        .chave-pix-box span { display: block; font-size: 13px; font-weight: 500; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .btn-copiar {
+          background: var(--branco); border: 1px solid var(--borda);
+          border-radius: 8px; padding: 7px 14px;
+          font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;
+          transition: all 0.2s;
+        }
+        .btn-copiar:hover { border-color: var(--verde); color: var(--verde); }
+
+        .btn-paguei {
+          width: 100%; height: 50px; background: var(--texto);
+          color: white; border: none; cursor: pointer;
+          font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+          border-radius: 12px; transition: background 0.2s, transform 0.1s;
+        }
+        .btn-paguei:hover { background: #333; }
+        .btn-paguei:active { transform: scale(0.98); }
+
+        /* SUCESSO */
+        .ok-body { padding: 48px 24px; text-align: center; }
+        .ok-icon {
+          width: 64px; height: 64px; background: var(--verde-light);
+          border-radius: 50%; display: flex; align-items: center; justify-content: center;
+          margin: 0 auto 20px;
+        }
+        .ok-titulo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .ok-sub { font-size: 14px; color: var(--texto2); }
+
+        .erro-tela { padding: 48px 24px; text-align: center; color: var(--texto2); }
+        .erro-tela h3 { font-family: 'Syne', sans-serif; font-size: 18px; color: var(--texto); margin-bottom: 8px; }
+
+        @media (max-width: 480px) {
+          .row-2 { grid-template-columns: 1fr; }
+          .pag-valor { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-dot"></div>
+    <span>PagPix</span>
+    <div class="badge-seguro">Pagamento seguro</div>
+</header>
+
+<main>
+    <div class="card" id="card-principal">
+        <div class="loading">
+            <div class="spinner"></div>
+            Carregando cobrança...
+        </div>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    const API = ''
+    let dadosCobranca = null
+    let dadosPreview = null
+
+    function pegarToken() {
+      const tokenQuery = new URLSearchParams(window.location.search).get('token')
+      const partes = window.location.pathname.split('/')
+      const tokenPath = partes[partes.length - 1]
+      return tokenQuery || tokenPath || '182888c2-b3df-43b6-8c89-798c69c6789e'
+    }
+
+    async function carregarCobranca() {
+      const token = pegarToken()
+      try {
+        const res = await fetch(`${API}/api/cobranca/${token}`)
+        if (!res.ok) { mostrarErro('Cobrança não encontrada ou já foi paga.'); return; }
+        dadosCobranca = await res.json()
+        await carregarPreview()
+      } catch (e) {
+        mostrarErro('Não foi possível conectar ao servidor.')
+      }
+    }
+
+    async function carregarPreview() {
+      try {
+        const url = encodeURIComponent(dadosCobranca.linkAnuncio)
+        const res = await fetch(`${API}/api/cobranca/preview?url=${url}`)
+        dadosPreview = await res.json()
+      } catch (e) {
+        dadosPreview = { sucesso: 'false', titulo: 'Ver anúncio', imagem: '', descricao: '', site: dadosCobranca.linkAnuncio }
+      }
+      mostrarTelaProduto()
+    }
+
+    function mostrarTelaProduto() {
+      const c = dadosCobranca
+      const p = dadosPreview
+      const valor = Number(c.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+      const imgHtml = p.imagem
+        ? `<div class="produto-img"><img src="${p.imagem}" alt="${p.titulo}" onerror="this.parentElement.innerHTML='<div class=produto-img-placeholder><svg width=40 height=40 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#ccc\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><path d=\\'M21 15l-5-5L5 21\\'/></svg></div>'"/></div>`
+        : `<div class="produto-img-placeholder" style="height:240px"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`
+
+      const descHtml = p.descricao
+        ? `<p class="produto-descricao">${p.descricao}</p>`
+        : ''
+
+      document.getElementById('card-principal').innerHTML = `
+        ${imgHtml}
+        <div class="produto-body">
+          <div class="origem-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+            </svg>
+            ${p.site || 'Anúncio'}
+          </div>
+          <h2 class="produto-titulo">${p.titulo || 'Anúncio do vendedor'}</h2>
+          ${descHtml}
+          <a class="produto-link" href="${c.linkAnuncio}" target="_blank">${c.linkAnuncio}</a>
+          <div class="pagar-banner" id="banner-pagar">
+            <div class="pagar-valor">
+              <span>Valor a pagar</span>
+              ${valor}
+            </div>
+            <button class="btn-pagar" id="btn-pagar-agora">Pagar agora</button>
+          </div>
+        </div>
+      `
+
+      document.getElementById('btn-pagar-agora').addEventListener('click', mostrarTelaDados)
+
+      setTimeout(() => {
+        const banner = document.getElementById('banner-pagar')
+        if (banner) banner.classList.add('visivel')
+      }, 2000)
+    }
+
+    function mostrarTelaDados() {
+      document.getElementById('card-principal').innerHTML = `
+        <div class="form-header">
+          <p class="step-label">Passo 1 de 2</p>
+          <h2 class="form-titulo">Seus dados</h2>
+          <p class="form-sub">Preencha para continuar com o pagamento</p>
+        </div>
+        <div class="form-body">
+          <div class="campo" id="campo-nome">
+            <label>Nome completo</label>
+            <input type="text" id="nome" placeholder="João da Silva" />
+            <p class="msg-erro">Informe seu nome completo</p>
+          </div>
+          <div class="row-2">
+            <div class="campo" id="campo-cpf">
+              <label>CPF</label>
+              <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" />
+              <p class="msg-erro">CPF inválido</p>
+            </div>
+            <div class="campo" id="campo-tel">
+              <label>Telefone</label>
+              <input type="text" id="tel" placeholder="(11) 99999-9999" maxlength="15" />
+              <p class="msg-erro">Telefone inválido</p>
+            </div>
+          </div>
+          <div class="campo" id="campo-email">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="joao@email.com" />
+            <p class="msg-erro">Email inválido</p>
+          </div>
+          <button class="btn-continuar" id="btn-continuar">Continuar →</button>
+        </div>
+      `
+
+      document.getElementById('cpf').addEventListener('input', function() {
+        let v = this.value.replace(/\D/g, '').substring(0, 11)
+        v = v.replace(/(\d{3})(\d)/, '$1.$2')
+        v = v.replace(/(\d{3})(\d)/, '$1.$2')
+        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+        this.value = v
+      })
+
+      document.getElementById('tel').addEventListener('input', function() {
+        let v = this.value.replace(/\D/g, '').substring(0, 11)
+        v = v.replace(/(\d{2})(\d)/, '($1) $2')
+        v = v.replace(/(\d{5})(\d)/, '$1-$2')
+        this.value = v
+      })
+
+      document.getElementById('btn-continuar').addEventListener('click', validarDados)
+    }
+
+    function validarDados() {
+      let ok = true
+      const nome  = document.getElementById('nome').value.trim()
+      const cpf   = document.getElementById('cpf').value.trim()
+      const tel   = document.getElementById('tel').value.trim()
+      const email = document.getElementById('email').value.trim()
+
+      const campoNome = document.getElementById('campo-nome')
+      if (nome.split(' ').length < 2) { campoNome.classList.add('tem-erro'); ok = false }
+      else campoNome.classList.remove('tem-erro')
+
+      const campoCpf = document.getElementById('campo-cpf')
+      if (cpf.replace(/\D/g, '').length < 11) { campoCpf.classList.add('tem-erro'); ok = false }
+      else campoCpf.classList.remove('tem-erro')
+
+      const campoTel = document.getElementById('campo-tel')
+      if (tel.replace(/\D/g, '').length < 10) { campoTel.classList.add('tem-erro'); ok = false }
+      else campoTel.classList.remove('tem-erro')
+
+      const campoEmail = document.getElementById('campo-email')
+      if (!email.includes('@') || !email.includes('.')) { campoEmail.classList.add('tem-erro'); ok = false }
+      else campoEmail.classList.remove('tem-erro')
+
+      if (ok) salvarDadosComprador({ nome, cpf, telefone: tel, email })
+    }
+
+    async function salvarDadosComprador(dados) {
+      try {
+        await fetch(`${API}/api/cobranca/${dadosCobranca.token}/comprador`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        })
+      } catch (e) {}
+      mostrarTelaPagamento()
+    }
+
+    function mostrarTelaPagamento() {
+      const c = dadosCobranca
+      const valor = Number(c.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+      document.getElementById('card-principal').innerHTML = `
+        <div class="pag-header">
+          <p class="pag-titulo">Passo 2 de 2 · Pagamento via Pix</p>
+          <p class="pag-valor">${valor}</p>
+        </div>
+        <div class="pag-body">
+          <div class="qr-wrapper">
+            <div id="qrcode"></div>
+            <p class="qr-label">Escaneie com o app do seu banco</p>
+          </div>
+          <div class="chave-pix-box">
+            <div>
+              <label>Chave Pix do vendedor</label>
+              <span>${c.chavePix}</span>
+            </div>
+            <button class="btn-copiar" id="btn-copiar">Copiar</button>
+          </div>
+          <button class="btn-paguei" id="btn-paguei">Já realizei o pagamento</button>
+        </div>
+      `
+
+      new QRCode(document.getElementById('qrcode'), {
+        text: c.chavePix,
+        width: 180, height: 180,
+        colorDark: '#1A1A1A', colorLight: '#FFFFFF',
+      })
+
+      document.getElementById('btn-copiar').addEventListener('click', function() {
+        navigator.clipboard.writeText(c.chavePix)
+        this.textContent = 'Copiado!'
+        this.style.color = 'var(--verde)'
+        setTimeout(() => { this.textContent = 'Copiar'; this.style.color = '' }, 2000)
+      })
+
+      document.getElementById('btn-paguei').addEventListener('click', confirmarPagamento)
+    }
+
+    async function confirmarPagamento() {
+      const btn = document.getElementById('btn-paguei')
+      btn.textContent = 'Confirmando...'
+      btn.disabled = true
+      try {
+        await fetch(`${API}/api/cobranca/${dadosCobranca.token}/pagar`, { method: 'PATCH' })
+      } catch (e) {}
+      mostrarTelaOk()
+    }
+
+    function mostrarTelaOk() {
+      document.getElementById('card-principal').innerHTML = `
+        <div class="ok-body">
+          <div class="ok-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+          </div>
+          <h2 class="ok-titulo">Pagamento enviado!</h2>
+          <p class="ok-sub">Obrigado. O vendedor será notificado e entrará em contato em breve.</p>
+        </div>
+      `
+    }
+
+    function mostrarErro(msg) {
+      document.getElementById('card-principal').innerHTML = `
+        <div class="erro-tela">
+          <h3>Cobrança indisponível</h3>
+          <p>${msg}</p>
+        </div>
+      `
+    }
+
+    carregarCobranca()
+</script>
+</body>
+</html>
