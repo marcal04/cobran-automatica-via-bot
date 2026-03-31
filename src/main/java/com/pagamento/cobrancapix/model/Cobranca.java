@@ -6,6 +6,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import com.pagamento.cobrancapix.model.Vendedor;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Data
 @Entity
@@ -34,6 +37,12 @@ public class Cobranca {
     private String nomeComprador;
 
     private String cpfComprador;
+
+    private String telefoneComprador;
+
+    @ManyToOne
+    @JoinColumn(name = "vendedor_id")
+    private Vendedor vendedor;
 
     // Status: PENDENTE, PAGO, EXPIRADO
     @Column(nullable = false)

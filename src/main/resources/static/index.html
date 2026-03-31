@@ -3,259 +3,311 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Pagamento Seguro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <title>PayVault — Pagamento Seguro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-          --verde: #00C896;
-          --verde-dark: #00A87E;
-          --verde-light: #E6FAF5;
-          --cinza: #F7F7F5;
-          --borda: #E8E8E4;
-          --texto: #1A1A1A;
-          --texto2: #6B6B6B;
-          --texto3: #A0A09A;
-          --branco: #FFFFFF;
-          --erro: #FF4D4D;
+          --navy:        #0A1628;
+          --navy-mid:    #1A2F4E;
+          --navy-light:  #1E3A5F;
+          --azul:        #1D5FA6;
+          --azul-light:  #E8F0FA;
+          --azul-mid:    #C5D8F0;
+          --cyan:        #00B4D8;
+          --cyan-light:  #E0F7FC;
+          --branco:      #FFFFFF;
+          --off:         #F5F7FA;
+          --borda:       #DDE3EE;
+          --texto:       #0A1628;
+          --texto2:      #4A5568;
+          --texto3:      #94A3B8;
+          --sucesso:     #10B981;
+          --sucesso-light: #ECFDF5;
         }
 
         body {
-          font-family: 'DM Sans', sans-serif;
-          background: var(--cinza);
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          background: var(--off);
           color: var(--texto);
           min-height: 100vh;
-          display: flex;
-          flex-direction: column;
+          display: flex; flex-direction: column;
         }
 
         header {
-          padding: 20px 24px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          border-bottom: 1px solid var(--borda);
-          background: var(--branco);
+          background: var(--navy);
+          padding: 16px 28px;
+          display: flex; align-items: center; gap: 12px;
         }
 
-        .logo-dot { width: 10px; height: 10px; background: var(--verde); border-radius: 50%; }
-
-        header span {
-          font-family: 'Syne', sans-serif;
-          font-weight: 700; font-size: 15px; letter-spacing: -0.3px;
+        .logo-mark {
+          width: 32px; height: 32px;
+          background: linear-gradient(135deg, var(--azul) 0%, var(--cyan) 100%);
+          border-radius: 8px;
+          display: flex; align-items: center; justify-content: center;
         }
+
+        .logo-text {
+          font-size: 18px; font-weight: 800;
+          letter-spacing: -0.5px; color: var(--branco);
+        }
+
+        .logo-text span { color: var(--cyan); }
 
         .badge-seguro {
-          margin-left: auto; font-size: 11px; color: var(--texto2);
-          display: flex; align-items: center; gap: 5px;
+          margin-left: auto; font-size: 11px; font-weight: 600;
+          color: var(--cyan); display: flex; align-items: center; gap: 6px;
+          background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
+          padding: 5px 14px; border-radius: 999px;
         }
 
         .badge-seguro::before {
-          content: ''; display: inline-block;
-          width: 8px; height: 8px; background: var(--verde); border-radius: 50%;
+          content: ''; width: 6px; height: 6px;
+          background: var(--cyan); border-radius: 50%;
         }
 
         main {
           flex: 1; display: flex; align-items: flex-start;
-          justify-content: center; padding: 32px 16px 48px;
+          justify-content: center; padding: 36px 16px 64px;
         }
 
         .card {
           background: var(--branco); border: 1px solid var(--borda);
-          border-radius: 20px; width: 100%; max-width: 480px; overflow: hidden;
+          border-radius: 20px; width: 100%; max-width: 460px;
+          overflow: hidden; box-shadow: 0 4px 24px rgba(10,22,40,0.08);
         }
 
         .spinner {
-          width: 28px; height: 28px; border: 2px solid var(--borda);
-          border-top-color: var(--verde); border-radius: 50%;
+          width: 28px; height: 28px; border: 2.5px solid var(--azul-mid);
+          border-top-color: var(--azul); border-radius: 50%;
           animation: spin 0.8s linear infinite; margin: 0 auto 16px;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .loading { padding: 48px 24px; text-align: center; color: var(--texto2); font-size: 14px; }
+        .loading { padding: 56px 24px; text-align: center; color: var(--texto2); font-size: 14px; }
 
-        /* PRODUTO */
-        .produto-img {
-          width: 100%; height: 240px; overflow: hidden;
-          background: var(--cinza); position: relative;
-        }
-
-        .produto-img img {
-          width: 100%; height: 100%; object-fit: cover;
-          transition: transform 0.4s ease;
-        }
-
-        .produto-img img:hover { transform: scale(1.03); }
-
+        .produto-img { width: 100%; height: 220px; overflow: hidden; background: var(--azul-light); }
+        .produto-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .produto-img img:hover { transform: scale(1.04); }
         .produto-img-placeholder {
-          width: 100%; height: 240px; background: var(--cinza);
+          width: 100%; height: 220px;
+          background: linear-gradient(135deg, var(--azul-light) 0%, var(--cyan-light) 100%);
           display: flex; align-items: center; justify-content: center;
         }
 
-        .produto-body { padding: 24px; }
+        .produto-body { padding: 24px 28px; }
 
         .origem-badge {
           display: inline-flex; align-items: center; gap: 6px;
-          font-size: 11px; color: var(--texto2);
-          background: var(--cinza); border: 1px solid var(--borda);
-          padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+          font-size: 11px; color: var(--azul); font-weight: 600;
+          background: var(--azul-light); border: 1px solid var(--azul-mid);
+          padding: 4px 12px; border-radius: 999px; margin-bottom: 14px;
         }
 
         .produto-titulo {
-          font-family: 'Syne', sans-serif;
-          font-size: 20px; font-weight: 700;
-          line-height: 1.3; margin-bottom: 8px; color: var(--texto);
+          font-size: 21px; font-weight: 800; line-height: 1.3;
+          margin-bottom: 8px; color: var(--navy); letter-spacing: -0.3px;
         }
 
         .produto-descricao {
-          font-size: 13px; color: var(--texto2);
-          line-height: 1.6; margin-bottom: 16px;
-          display: -webkit-box; -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical; overflow: hidden;
+          font-size: 13px; color: var(--texto2); line-height: 1.65;
+          margin-bottom: 14px; display: -webkit-box;
+          -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
         }
 
         .produto-link {
-          font-size: 12px; color: var(--texto3);
-          text-decoration: none; word-break: break-all;
-          display: block; margin-bottom: 20px;
+          font-size: 11px; color: var(--texto3); text-decoration: none;
+          word-break: break-all; display: block; margin-bottom: 22px; transition: color 0.2s;
         }
 
-        .produto-link:hover { color: var(--verde); }
+        .produto-link:hover { color: var(--azul); }
 
         .pagar-banner {
-          background: var(--verde-light); border: 1px solid #B3EFE0;
-          border-radius: 14px; padding: 16px 20px;
+          background: var(--navy); border-radius: 16px; padding: 18px 22px;
           display: flex; align-items: center; justify-content: space-between; gap: 12px;
-          opacity: 0; transform: translateY(10px);
+          opacity: 0; transform: translateY(12px);
           transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .pagar-banner.visivel { opacity: 1; transform: translateY(0); }
 
         .pagar-valor {
-          font-family: 'Syne', sans-serif;
-          font-size: 22px; font-weight: 700; color: var(--texto);
+          font-size: 26px; font-weight: 800; color: var(--branco); letter-spacing: -0.5px;
         }
 
         .pagar-valor span {
-          display: block; font-family: 'DM Sans', sans-serif;
-          font-size: 11px; font-weight: 400; color: var(--texto2);
+          display: block; font-size: 11px; font-weight: 500;
+          color: rgba(255,255,255,0.6); margin-bottom: 2px;
         }
 
         .btn-pagar {
-          background: var(--verde); color: white; border: none; cursor: pointer;
-          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
-          padding: 12px 22px; border-radius: 12px; white-space: nowrap;
+          background: var(--cyan); color: var(--navy); border: none; cursor: pointer;
+          font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+          padding: 13px 24px; border-radius: 12px; white-space: nowrap;
           transition: background 0.2s, transform 0.1s;
         }
 
-        .btn-pagar:hover { background: var(--verde-dark); }
+        .btn-pagar:hover { background: #00C8EF; }
         .btn-pagar:active { transform: scale(0.97); }
 
-        /* FORMULÁRIO */
-        .form-header { padding: 28px 24px 0; }
-        .step-label { font-size: 11px; color: var(--texto3); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 6px; }
-        .form-titulo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--texto); margin-bottom: 4px; }
+        .resumo-produto {
+          background: var(--navy); padding: 16px 28px;
+          display: flex; align-items: center; gap: 14px;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .resumo-img {
+          width: 48px; height: 48px; border-radius: 10px; object-fit: cover;
+          flex-shrink: 0; border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .resumo-img-placeholder {
+          width: 48px; height: 48px; border-radius: 10px;
+          background: var(--navy-light); flex-shrink: 0;
+        }
+
+        .resumo-info { flex: 1; overflow: hidden; }
+        .resumo-site { font-size: 10px; color: var(--cyan); font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
+        .resumo-titulo { font-size: 13px; font-weight: 700; color: var(--branco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .resumo-valor { text-align: right; flex-shrink: 0; }
+        .resumo-valor-label { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+        .resumo-valor-num { font-size: 20px; font-weight: 800; color: var(--cyan); letter-spacing: -0.5px; }
+
+        .form-header { padding: 28px 28px 0; }
+
+        .step-pill {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 11px; font-weight: 600; color: var(--azul);
+          background: var(--azul-light); border: 1px solid var(--azul-mid);
+          padding: 4px 12px; border-radius: 999px; margin-bottom: 14px;
+        }
+
+        .form-titulo { font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 6px; letter-spacing: -0.4px; }
         .form-sub { font-size: 13px; color: var(--texto2); margin-bottom: 24px; }
-        .form-body { padding: 0 24px 24px; }
+        .form-body { padding: 0 28px 28px; }
 
         .campo { margin-bottom: 16px; }
-        .campo label { display: block; font-size: 12px; font-weight: 500; color: var(--texto2); margin-bottom: 6px; }
+        .campo label { display: block; font-size: 12px; font-weight: 600; color: var(--texto2); margin-bottom: 6px; }
         .campo input {
-          width: 100%; height: 46px; border: 1px solid var(--borda);
-          border-radius: 10px; padding: 0 14px;
-          font-family: 'DM Sans', sans-serif; font-size: 14px;
-          color: var(--texto); background: var(--branco);
-          transition: border-color 0.2s; outline: none;
+          width: 100%; height: 48px; border: 1.5px solid var(--borda);
+          border-radius: 12px; padding: 0 16px;
+          font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px;
+          color: var(--texto); background: var(--branco); outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .campo input:focus { border-color: var(--verde); }
-        .msg-erro { font-size: 11px; color: var(--erro); margin-top: 4px; display: none; }
+        .campo input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(29,95,166,0.1); }
+        .msg-erro { font-size: 11px; color: #EF4444; margin-top: 5px; display: none; }
         .campo.tem-erro .msg-erro { display: block; }
-        .campo.tem-erro input { border-color: var(--erro); }
+        .campo.tem-erro input { border-color: #EF4444; }
         .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .btn-continuar {
-          width: 100%; height: 50px; background: var(--verde);
-          color: white; border: none; cursor: pointer;
-          font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
-          border-radius: 12px; margin-top: 8px;
+          width: 100%; height: 52px; background: var(--navy); color: var(--branco);
+          border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: 15px; font-weight: 700; border-radius: 14px; margin-top: 8px;
           transition: background 0.2s, transform 0.1s;
         }
-        .btn-continuar:hover { background: var(--verde-dark); }
+        .btn-continuar:hover { background: var(--navy-light); }
         .btn-continuar:active { transform: scale(0.98); }
 
-        /* PAGAMENTO */
-        .pag-header {
-          padding: 28px 24px 20px; text-align: center;
-          border-bottom: 1px solid var(--borda);
+        .pag-header { background: var(--navy); padding: 28px; text-align: center; }
+        .pag-label { font-size: 11px; color: var(--cyan); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+        .pag-valor { font-size: 42px; font-weight: 800; color: var(--branco); letter-spacing: -1.5px; }
+        .pag-body { padding: 24px 28px; }
+
+        .aviso-seguranca {
+          background: #FFFBEB; border: 1.5px solid #FDE68A;
+          border-radius: 14px; padding: 16px 18px; margin-bottom: 20px;
         }
-        .pag-titulo { font-size: 13px; color: var(--texto2); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
-        .pag-valor { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 700; color: var(--texto); }
-        .pag-body { padding: 24px; }
+
+        .aviso-titulo {
+          font-size: 12px; font-weight: 700; color: #92400E;
+          margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+        }
+
+        .aviso-texto { font-size: 12px; color: #78350F; line-height: 1.7; }
 
         .qr-wrapper {
-          background: var(--branco); border: 1px solid var(--borda);
-          border-radius: 16px; padding: 20px;
-          display: flex; flex-direction: column; align-items: center; gap: 16px;
-          margin-bottom: 20px;
+          background: var(--off); border: 1.5px solid var(--borda);
+          border-radius: 20px; padding: 24px;
+          display: flex; flex-direction: column; align-items: center;
+          gap: 14px; margin-bottom: 20px;
         }
 
         .qr-label { font-size: 12px; color: var(--texto2); text-align: center; }
 
         .chave-pix-box {
-          background: var(--cinza); border: 1px solid var(--borda);
-          border-radius: 10px; padding: 12px 16px;
-          display: flex; justify-content: space-between; align-items: center; gap: 12px;
-          margin-bottom: 20px;
+          background: var(--azul-light); border: 1.5px solid var(--azul-mid);
+          border-radius: 14px; padding: 14px 18px;
+          display: flex; justify-content: space-between;
+          align-items: center; gap: 12px; margin-bottom: 20px;
         }
 
         .chave-pix-box div { flex: 1; overflow: hidden; }
-        .chave-pix-box label { font-size: 11px; color: var(--texto3); }
-        .chave-pix-box span { display: block; font-size: 13px; font-weight: 500; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chave-pix-box label { font-size: 11px; color: var(--azul); font-weight: 600; display: block; margin-bottom: 2px; }
+        .chave-pix-box span { font-size: 13px; font-weight: 600; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 
         .btn-copiar {
-          background: var(--branco); border: 1px solid var(--borda);
-          border-radius: 8px; padding: 7px 14px;
-          font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;
-          transition: all 0.2s;
+          background: var(--branco); border: 1.5px solid var(--azul-mid);
+          border-radius: 10px; padding: 8px 16px;
+          font-size: 12px; font-weight: 600; color: var(--azul);
+          cursor: pointer; white-space: nowrap;
+          font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;
         }
-        .btn-copiar:hover { border-color: var(--verde); color: var(--verde); }
+        .btn-copiar:hover { background: var(--azul); color: white; border-color: var(--azul); }
 
         .btn-paguei {
-          width: 100%; height: 50px; background: var(--texto);
-          color: white; border: none; cursor: pointer;
-          font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
-          border-radius: 12px; transition: background 0.2s, transform 0.1s;
+          width: 100%; height: 52px; background: var(--sucesso); color: white;
+          border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: 15px; font-weight: 700; border-radius: 14px;
+          transition: background 0.2s, transform 0.1s;
         }
-        .btn-paguei:hover { background: #333; }
+        .btn-paguei:hover { background: #059669; }
         .btn-paguei:active { transform: scale(0.98); }
 
-        /* SUCESSO */
-        .ok-body { padding: 48px 24px; text-align: center; }
+        .ok-body { padding: 56px 28px; text-align: center; }
         .ok-icon {
-          width: 64px; height: 64px; background: var(--verde-light);
+          width: 72px; height: 72px; background: var(--sucesso-light);
           border-radius: 50%; display: flex; align-items: center; justify-content: center;
-          margin: 0 auto 20px;
+          margin: 0 auto 24px; border: 2px solid #6EE7B7;
         }
-        .ok-titulo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-        .ok-sub { font-size: 14px; color: var(--texto2); }
+        .ok-titulo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; color: var(--navy); }
+        .ok-sub { font-size: 14px; color: var(--texto2); line-height: 1.6; }
+        .ok-tag {
+          display: inline-block; margin-top: 24px; font-size: 11px; font-weight: 600;
+          color: var(--azul); background: var(--azul-light); border: 1px solid var(--azul-mid);
+          padding: 6px 18px; border-radius: 999px;
+        }
 
-        .erro-tela { padding: 48px 24px; text-align: center; color: var(--texto2); }
-        .erro-tela h3 { font-family: 'Syne', sans-serif; font-size: 18px; color: var(--texto); margin-bottom: 8px; }
+        .erro-tela { padding: 56px 28px; text-align: center; color: var(--texto2); }
+        .erro-tela h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+
+        footer { text-align: center; padding: 20px; font-size: 11px; color: var(--texto3); }
+        footer span { color: var(--azul); font-weight: 600; }
 
         @media (max-width: 480px) {
           .row-2 { grid-template-columns: 1fr; }
-          .pag-valor { font-size: 28px; }
+          .pag-valor { font-size: 32px; }
+          .produto-body, .pag-body { padding: 20px; }
+          .form-header { padding: 24px 20px 0; }
+          .form-body { padding: 0 20px 24px; }
+          .resumo-produto { padding: 16px 20px; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-dot"></div>
-    <span>PagPix</span>
+    <div class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+        </svg>
+    </div>
+    <span class="logo-text">Pay<span>Vault</span></span>
     <div class="badge-seguro">Pagamento seguro</div>
 </header>
 
@@ -268,6 +320,10 @@
     </div>
 </main>
 
+<footer>
+    Protegido por <span>PayVault</span> · Seus dados estão seguros e criptografados
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
     const API = ''
@@ -278,11 +334,12 @@
       const tokenQuery = new URLSearchParams(window.location.search).get('token')
       const partes = window.location.pathname.split('/')
       const tokenPath = partes[partes.length - 1]
-      return tokenQuery || tokenPath || '182888c2-b3df-43b6-8c89-798c69c6789e'
+      return tokenQuery || tokenPath || ''
     }
 
     async function carregarCobranca() {
       const token = pegarToken()
+      if (!token) { mostrarErro('Link de pagamento inválido.'); return; }
       try {
         const res = await fetch(`${API}/api/cobranca/${token}`)
         if (!res.ok) { mostrarErro('Cobrança não encontrada ou já foi paga.'); return; }
@@ -299,7 +356,7 @@
         const res = await fetch(`${API}/api/cobranca/preview?url=${url}`)
         dadosPreview = await res.json()
       } catch (e) {
-        dadosPreview = { sucesso: 'false', titulo: 'Ver anúncio', imagem: '', descricao: '', site: dadosCobranca.linkAnuncio }
+        dadosPreview = { sucesso: 'false', titulo: 'Ver anúncio', imagem: '', descricao: '', site: '' }
       }
       mostrarTelaProduto()
     }
@@ -308,24 +365,23 @@
       const c = dadosCobranca
       const p = dadosPreview
       const valor = Number(c.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      const dominio = (() => { try { return new URL(c.linkAnuncio).hostname.replace('www.','') } catch { return 'anúncio' } })()
 
       const imgHtml = p.imagem
-        ? `<div class="produto-img"><img src="${p.imagem}" alt="${p.titulo}" onerror="this.parentElement.innerHTML='<div class=produto-img-placeholder><svg width=40 height=40 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#ccc\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><path d=\\'M21 15l-5-5L5 21\\'/></svg></div>'"/></div>`
-        : `<div class="produto-img-placeholder" style="height:240px"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`
+        ? `<div class="produto-img"><img src="${p.imagem}" alt="${p.titulo}" onerror="this.parentElement.className='produto-img-placeholder'" /></div>`
+        : `<div class="produto-img-placeholder" style="height:220px"></div>`
 
-      const descHtml = p.descricao
-        ? `<p class="produto-descricao">${p.descricao}</p>`
-        : ''
+      const descHtml = p.descricao ? `<p class="produto-descricao">${p.descricao}</p>` : ''
 
       document.getElementById('card-principal').innerHTML = `
         ${imgHtml}
         <div class="produto-body">
           <div class="origem-badge">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
               <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
             </svg>
-            ${p.site || 'Anúncio'}
+            ${p.site || dominio}
           </div>
           <h2 class="produto-titulo">${p.titulo || 'Anúncio do vendedor'}</h2>
           ${descHtml}
@@ -341,7 +397,6 @@
       `
 
       document.getElementById('btn-pagar-agora').addEventListener('click', mostrarTelaDados)
-
       setTimeout(() => {
         const banner = document.getElementById('banner-pagar')
         if (banner) banner.classList.add('visivel')
@@ -349,9 +404,26 @@
     }
 
     function mostrarTelaDados() {
+      const p = dadosPreview
+      const valor = Number(dadosCobranca.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+      const dominio = (() => { try { return new URL(dadosCobranca.linkAnuncio).hostname.replace('www.','') } catch { return 'anúncio' } })()
+
       document.getElementById('card-principal').innerHTML = `
+        <div class="resumo-produto">
+          ${p && p.imagem
+            ? `<img class="resumo-img" src="${p.imagem}" onerror="this.className='resumo-img-placeholder'" />`
+            : `<div class="resumo-img-placeholder"></div>`}
+          <div class="resumo-info">
+            <p class="resumo-site">${p && p.site ? p.site : dominio}</p>
+            <p class="resumo-titulo">${p && p.titulo ? p.titulo : 'Produto'}</p>
+          </div>
+          <div class="resumo-valor">
+            <p class="resumo-valor-label">Valor</p>
+            <p class="resumo-valor-num">${valor}</p>
+          </div>
+        </div>
         <div class="form-header">
-          <p class="step-label">Passo 1 de 2</p>
+          <div class="step-pill">Passo 1 de 2</div>
           <h2 class="form-titulo">Seus dados</h2>
           <p class="form-sub">Preencha para continuar com o pagamento</p>
         </div>
@@ -383,17 +455,14 @@
       `
 
       document.getElementById('cpf').addEventListener('input', function() {
-        let v = this.value.replace(/\D/g, '').substring(0, 11)
-        v = v.replace(/(\d{3})(\d)/, '$1.$2')
-        v = v.replace(/(\d{3})(\d)/, '$1.$2')
-        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+        let v = this.value.replace(/\D/g,'').substring(0,11)
+        v = v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2')
         this.value = v
       })
 
       document.getElementById('tel').addEventListener('input', function() {
-        let v = this.value.replace(/\D/g, '').substring(0, 11)
-        v = v.replace(/(\d{2})(\d)/, '($1) $2')
-        v = v.replace(/(\d{5})(\d)/, '$1-$2')
+        let v = this.value.replace(/\D/g,'').substring(0,11)
+        v = v.replace(/(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d)/,'$1-$2')
         this.value = v
       })
 
@@ -412,11 +481,11 @@
       else campoNome.classList.remove('tem-erro')
 
       const campoCpf = document.getElementById('campo-cpf')
-      if (cpf.replace(/\D/g, '').length < 11) { campoCpf.classList.add('tem-erro'); ok = false }
+      if (cpf.replace(/\D/g,'').length < 11) { campoCpf.classList.add('tem-erro'); ok = false }
       else campoCpf.classList.remove('tem-erro')
 
       const campoTel = document.getElementById('campo-tel')
-      if (tel.replace(/\D/g, '').length < 10) { campoTel.classList.add('tem-erro'); ok = false }
+      if (tel.replace(/\D/g,'').length < 10) { campoTel.classList.add('tem-erro'); ok = false }
       else campoTel.classList.remove('tem-erro')
 
       const campoEmail = document.getElementById('campo-email')
@@ -443,10 +512,20 @@
 
       document.getElementById('card-principal').innerHTML = `
         <div class="pag-header">
-          <p class="pag-titulo">Passo 2 de 2 · Pagamento via Pix</p>
+          <p class="pag-label">Passo 2 de 2 · Pagamento via Pix</p>
           <p class="pag-valor">${valor}</p>
         </div>
         <div class="pag-body">
+          <div class="aviso-seguranca">
+            <p class="aviso-titulo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Leia antes de pagar
+            </p>
+            <p class="aviso-texto">
+              Você está realizando o pagamento do produto anunciado pelo vendedor. O Pix será enviado <strong>diretamente para a conta do vendedor</strong>, de forma segura e instantânea.<br><br>
+              <strong>Importante:</strong> o PayVault não entra em contato por telefone ou WhatsApp solicitando dados bancários. Nunca compartilhe senhas ou códigos com ninguém.
+            </p>
+          </div>
           <div class="qr-wrapper">
             <div id="qrcode"></div>
             <p class="qr-label">Escaneie com o app do seu banco</p>
@@ -458,21 +537,21 @@
             </div>
             <button class="btn-copiar" id="btn-copiar">Copiar</button>
           </div>
-          <button class="btn-paguei" id="btn-paguei">Já realizei o pagamento</button>
+          <button class="btn-paguei" id="btn-paguei">✓ Já realizei o pagamento</button>
         </div>
       `
 
       new QRCode(document.getElementById('qrcode'), {
-        text: c.chavePix,
-        width: 180, height: 180,
-        colorDark: '#1A1A1A', colorLight: '#FFFFFF',
+        text: c.chavePix, width: 180, height: 180,
+        colorDark: '#0A1628', colorLight: '#FFFFFF',
       })
 
       document.getElementById('btn-copiar').addEventListener('click', function() {
         navigator.clipboard.writeText(c.chavePix)
-        this.textContent = 'Copiado!'
-        this.style.color = 'var(--verde)'
-        setTimeout(() => { this.textContent = 'Copiar'; this.style.color = '' }, 2000)
+        this.textContent = '✓ Copiado!'
+        this.style.background = 'var(--azul)'
+        this.style.color = 'white'
+        setTimeout(() => { this.textContent = 'Copiar'; this.style.background = ''; this.style.color = ''; }, 2000)
       })
 
       document.getElementById('btn-paguei').addEventListener('click', confirmarPagamento)
@@ -492,12 +571,13 @@
       document.getElementById('card-principal').innerHTML = `
         <div class="ok-body">
           <div class="ok-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 6L9 17l-5-5"/>
             </svg>
           </div>
           <h2 class="ok-titulo">Pagamento enviado!</h2>
-          <p class="ok-sub">Obrigado. O vendedor será notificado e entrará em contato em breve.</p>
+          <p class="ok-sub">Obrigado! O vendedor foi notificado e entrará em contato em breve para confirmar a transação.</p>
+          <span class="ok-tag">PayVault · Transação registrada com segurança</span>
         </div>
       `
     }

@@ -5,6 +5,7 @@ import com.pagamento.cobrancapix.service.CobrancaService;
 import com.pagamento.cobrancapix.service.PreviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.pagamento.cobrancapix.dto.DadosCompradorDTO;
 
 import java.util.Map;
 import java.util.Optional;
@@ -59,5 +60,21 @@ public class CobrancaController {
     @GetMapping("/preview")
     public ResponseEntity<Map<String, String>> buscarPreview(@RequestParam String url) {
         return ResponseEntity.ok(previewService.buscarPreview(url));
+    }
+
+    // PATCH /api/cobranca/{token}/comprador
+    @PatchMapping("/{token}/comprador")
+    public ResponseEntity<Void> salvarDadosComprador(
+            @PathVariable String token,
+            @RequestBody DadosCompradorDTO dados) {
+
+        Optional<Cobranca> cobranca = cobrancaService.buscarPorToken(token);
+
+        if (cobranca.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        cobrancaService.salvarDadosComprador(token, dados);
+        return ResponseEntity.ok().build();
     }
 }
