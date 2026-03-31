@@ -941,22 +941,8 @@ Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](./LICENSE) p
 
 ## 👥 Autores
 
-- **Seu Nome** - [GitHub](https://github.com/seu-usuario)
+- **Seu Nome** - [GitHub](https://github.com/marcal04)
 
----
-
-## 💬 Suporte
-
-Tem dúvidas? Abra uma [Issue](https://github.com/seu-usuario/cobranca-pix/issues) no GitHub.
-
----
-
-## 📞 Contato
-
-- 📧 Email: seu-email@example.com
-- 💬 Telegram: [@seu-usuario](https://t.me/seu-usuario)
-
----
 
 ## 🙏 Agradecimentos
 
